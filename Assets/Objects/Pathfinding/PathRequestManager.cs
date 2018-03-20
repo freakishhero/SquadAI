@@ -8,6 +8,7 @@ public class PathRequestManager : MonoBehaviour {
 
     Queue<PathResult> results = new Queue<PathResult>();
     PathFinding path_finding;
+
     static PathRequestManager instance;
 
     void Awake()

@@ -11,14 +11,15 @@ public class Unit : MonoBehaviour {
     public float turn_speed = 3f;
     public float turn_distance = 5f;
 
-    [SerializeField]
-    public Transform target;
+    public GameObject Target { get; set; }
 
     Path path;
 
-	// Use this for initialization
 	void Start () {
         StartCoroutine(UpdatePath());
+        Target = new GameObject();
+        this.name = "Unit";
+        Target.name = "Target ";
 	}
 
     public void OnPathFound(Vector3[] _waypoints, bool path_successful)
@@ -69,22 +70,23 @@ public class Unit : MonoBehaviour {
         if (Time.timeSinceLevelLoad < 0.3f)
             yield return new WaitForSeconds(0.3f);
 
-        PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+    
 
         float sqaure_move_threshhold = path_update_threshold * path_update_threshold;
-        Vector3 old_target_position = target.position;
+        Vector3 old_target_position = Target.transform.position;
 
         while (true)
         {
             yield return new WaitForSeconds(path_update_timer);
 
-            if((target.position - old_target_position).sqrMagnitude > sqaure_move_threshhold)
+            if((Target.transform.position - old_target_position).sqrMagnitude > sqaure_move_threshhold)
             {
-                PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
-                old_target_position = target.position;
+                PathRequestManager.RequestPath(new PathRequest(transform.position, Target.transform.position, OnPathFound));
+                old_target_position = Target.transform.position;
             }
         }
     }
+
     public void OnDrawGizmos()
     {
         if(path != null)
