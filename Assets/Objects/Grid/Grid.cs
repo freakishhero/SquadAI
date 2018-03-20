@@ -58,6 +58,15 @@ public class Grid : MonoBehaviour {
         }
     }
 
+    void FixedUpdate()
+    {
+        foreach (Node node in grid)
+        {
+            node.Walkable = !(Physics.CheckSphere(node.World_Pos, node_radius, obstacle_mask));
+        }
+        
+    }
+
     public Node GetNodeFromWorldPosition(Vector3 _world_pos) 
     {
         float x_scale = (_world_pos.x + grid_size.x / 2) / grid_size.x;

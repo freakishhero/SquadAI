@@ -1,6 +1,5 @@
 TO DO
 ------
-1. Make only selected units move
-2. Add a waypoint system.
+1. Not colliding with other units
 3. Take cover.
 4. Potentially add a patrolling system?

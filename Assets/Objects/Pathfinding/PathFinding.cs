@@ -15,18 +15,14 @@ public class PathFinding : MonoBehaviour {
 
     public void FindPath(PathRequest _request, Action<PathResult> _callback)
     {
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-
         Vector3[] waypoints = new Vector3[0];
         bool path_success = false;
 
         Node start_node = grid.GetNodeFromWorldPosition(_request.path_start);
         Node end_node = grid.GetNodeFromWorldPosition(_request.path_end);
 
-        if (start_node.Walkable && end_node.Walkable)
+        if (end_node.Walkable)
         {
-
             Heap<Node> open_nodes = new Heap<Node>(grid.Max_Size);
             HashSet<Node> closed_nodes = new HashSet<Node>();
 
@@ -39,8 +35,6 @@ public class PathFinding : MonoBehaviour {
 
                 if (current_node == end_node)
                 {
-                    sw.Stop();
-                    print("Path found in " + sw.ElapsedMilliseconds + "ms.");
                     path_success = true;
                     break;
                 }
@@ -92,12 +86,13 @@ public class PathFinding : MonoBehaviour {
             path.Add(current_node);
             current_node = current_node.Parent;
         }
-        Vector3[] waypoints = SimplyPath(path);
+
+        Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
         return waypoints;
     }
 
-    Vector3[] SimplyPath(List<Node> _path)
+    Vector3[] SimplifyPath(List<Node> _path)
     {
         List<Vector3> waypoints = new List<Vector3>();
         Vector2 old_direction = Vector2.zero;

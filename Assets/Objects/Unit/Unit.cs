@@ -32,6 +32,11 @@ public class Unit : MonoBehaviour {
         }
     }
 
+    protected void LateUpdate()
+    {
+        this.transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
+    }
+
     IEnumerator FollowPath()
     {
         bool following_path = true;
@@ -58,7 +63,7 @@ public class Unit : MonoBehaviour {
             {
                 Quaternion target_rotation = Quaternion.LookRotation(path.look_points[path_index] - transform.position);
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, target_rotation, turn_speed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, target_rotation, turn_speed * Time.deltaTime);
                 transform.Translate(Vector3.forward * movement_speed * Time.deltaTime, Space.Self);
             }
             yield return null;

@@ -78,7 +78,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DragSelection.cs" />
     <Compile Include="Assets\Objects\Grid\Grid.cs" />
     <Compile Include="Assets\Objects\Heap\Heap.cs" />
     <Compile Include="Assets\Objects\Node\Node.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Assets\Objects\Pathfinding\Path.cs" />
     <Compile Include="Assets\Objects\Pathfinding\PathFinding.cs" />
     <Compile Include="Assets\Objects\Pathfinding\PathRequestManager.cs" />
+    <Compile Include="Assets\Objects\Player\MouseController.cs" />
     <Compile Include="Assets\Objects\Unit\Selection.cs" />
     <Compile Include="Assets\Objects\Unit\Unit.cs" />
   </ItemGroup>
