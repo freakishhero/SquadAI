@@ -109,9 +109,10 @@ public class MouseController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
         if (eventData.button == PointerEventData.InputButton.Right)
         {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             foreach (Selection selection in Selection.currently_selected)
             {
-                selection.GetComponent<Unit>().Target.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                selection.GetComponent<Unit>().Target.transform.position = pos;
             }
         }
     }

@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour {
     public float turn_speed = 3f;
     public float turn_distance = 5f;
 
+    public List<Path> waypoints;
+
     public GameObject Target { get; set; }
 
     Path path;
@@ -29,6 +31,17 @@ public class Unit : MonoBehaviour {
             path = new Path(_waypoints, transform.position, turn_distance);
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
+        }
+    }
+
+    void FixedUpdate()
+    {
+        foreach(Selection unit in Selection.currently_selected)
+        {
+            if(Vector3.Distance(this.transform.position, unit.gameObject.transform.position) < 0.7f)
+            {
+              this.GetComponent<Rigidbody>().velocity -= unit.GetComponent<Rigidbody>().velocity;
+            }
         }
     }
 
@@ -69,6 +82,7 @@ public class Unit : MonoBehaviour {
             yield return null;
         }
     }
+
 
     IEnumerator UpdatePath()
     {
