@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class MouseController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
 
-
     [SerializeField]
     Image selection_box;
 
@@ -17,10 +16,6 @@ public class MouseController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {        
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
-            {
-                Selection.DeselectAll(new BaseEventData(EventSystem.current));
-            }
             selection_box.gameObject.SetActive(true);
             start_position = eventData.position;
             selection_rect = new Rect();
@@ -70,8 +65,30 @@ public class MouseController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
+        //When the left mouse button is pushed
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            Selection.DeselectAll(new BaseEventData(EventSystem.current));
+            //Add a mouse press
+            if (GameManager.MouseClicks == 0)
+            {
+                GameManager.MouseClicks = 1;
+                Debug.Log("Single click: " + GameManager.MouseClicks);
+                Debug.Log(Selection.currently_selected.Count);
+                GameManager.First_Click_Time = Time.time;
+            }
+            //If the mouse has already been pressed
+            else if (GameManager.MouseClicks == 1)
+            {
+                Selection.SelectAll(new BaseEventData(EventSystem.current));
+                Debug.Log(Selection.currently_selected.Count);
+                Debug.Log("Double click.");
+                GameManager.MouseClicks = 0;
+            }
+
+            
+
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
 

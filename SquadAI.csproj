@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Objects\Grid\Grid.cs" />
     <Compile Include="Assets\Objects\Heap\Heap.cs" />
     <Compile Include="Assets\Objects\Node\Node.cs" />

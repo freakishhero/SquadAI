@@ -34,10 +34,6 @@ public class Selection : MonoBehaviour, ISelectHandler, IDeselectHandler, IPoint
 
     public void  OnPointerClick(PointerEventData eventData)
     {
-        if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
-        {
-            DeselectAll(eventData);
-        }
         OnSelect(eventData);
     }
 
@@ -48,5 +44,13 @@ public class Selection : MonoBehaviour, ISelectHandler, IDeselectHandler, IPoint
             selection.OnDeselect(eventData);
         }
         currently_selected.Clear();
+    }
+
+    public static void SelectAll(BaseEventData eventData)
+    {
+        foreach (Selection selection in all_units)
+        {
+            selection.OnSelect(eventData);
+        }
     }
 }

@@ -16,13 +16,19 @@ public class Unit : MonoBehaviour {
     public GameObject Target { get; set; }
 
     Path path;
+    Rigidbody rb;
 
-	void Start () {
+    void Start () {
         StartCoroutine(UpdatePath());
         Target = new GameObject();
         this.name = "Unit";
         Target.name = "Target ";
-	}
+        rb = this.GetComponent<Rigidbody>();
+
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY 
+            | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionX | 
+            RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+    }
 
     public void OnPathFound(Vector3[] _waypoints, bool path_successful)
     {
@@ -36,7 +42,7 @@ public class Unit : MonoBehaviour {
 
     void FixedUpdate()
     {
-        foreach(Selection unit in Selection.currently_selected)
+        foreach(Selection unit in Selection.all_units)
         {
             if(Vector3.Distance(this.transform.position, unit.gameObject.transform.position) < 0.7f)
             {
@@ -56,7 +62,11 @@ public class Unit : MonoBehaviour {
         int path_index = 0;
         transform.LookAt(path.look_points[0]);
 
-        while(following_path)
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY
+            | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionX 
+            | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+
+        while (following_path)
         {
             Vector2 position_2D = new Vector2(transform.position.x, transform.position.z);
             while(path.turn_boundaries[path_index].HasCrossedLine(position_2D))
@@ -81,6 +91,7 @@ public class Unit : MonoBehaviour {
             }
             yield return null;
         }
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
 
